@@ -335,15 +335,17 @@ __device__ RSComplex fast_nuclear_W( RSComplex Z )
 		RSComplex one = {1, 0};
 		RSComplex W = c_div(c_mul(i, ( c_sub(one, fast_cexp(c_mul(t1, Z))) )) , c_mul(t2, Z));
 		RSComplex sum = {0,0};
+		RSComplex cexp1 = fast_cexp(c_mul(t1, Z));
+		RSComplex r144 = {144, 0};
+		RSComplex mul1 = c_mul(r144, c_mul(Z,Z))
 		for( int n = 0; n < 10; n++ )
 		{
 			RSComplex t3 = {neg_1n[n], 0};
-			RSComplex top = c_sub(c_mul(t3, fast_cexp(c_mul(t1, Z))), one);
+			RSComplex top = c_sub(c_mul(t3, cexp1), one);
 			RSComplex t4 = {denominator_left[n], 0};
-			RSComplex t5 = {144, 0};
-			RSComplex bot = c_sub(t4, c_mul(t5,c_mul(Z,Z)));
-			RSComplex t6 = {an[n], 0};
-			sum = c_add(sum, c_mul(t6, c_div(top,bot)));
+			RSComplex bot = c_sub(t4, mul1);
+			RSComplex t5 = {an[n], 0};
+			sum = c_add(sum, c_mul(t5, c_div(top,bot)));
 		}
 		W = c_add(W, c_mul(prefactor, c_mul(Z, sum)));
 		return W;
